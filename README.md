@@ -1,10 +1,16 @@
 # Markdown-It Wikilinks
 
-[![Build Status](https://travis-ci.org/jsepia/markdown-it-wikilinks.svg?branch=master)](https://travis-ci.org/jsepia/markdown-it-wikilinks) [![Coverage Status](https://coveralls.io/repos/github/jsepia/markdown-it-wikilinks/badge.svg?branch=master)](https://coveralls.io/github/jsepia/markdown-it-wikilinks?branch=master)
+A fork of [jsepia's plugin](https://github.com/jsepia/markdown-it-wikilinks) (It's recommended you use that plugin, not this one).
+
 
 Renders [Wikimedia-style links](https://www.mediawiki.org/wiki/Help:Links#Internal_links) in [markdown-it](https://github.com/markdown-it/markdown-it). This is useful for making Markdown-based wikis.
 
+## Reason behind forking
+
+I've created this fork in order to make it work more with the VSCode markdown preview window. It is by no means perfect.
 ## Usage
+
+
 
 Install this into your project:
 
@@ -139,11 +145,9 @@ A transform applied to every link label. You can override it just like `generate
 
 All the default transform does is trim surrounding whitespace.
 
-## TODO
-
-* Unit test options
-* Add examples to `postProcessPageName` and `postProcessLabel`
-
 ## Credits
 
-Based on [markdown-it-ins](https://github.com/markdown-it/markdown-it-ins) by Vitaly Puzrin, Alex Kocharin.
+Based on the original [markdown-it-wikilinks](https://github.com/jsepia/markdown-it-wikilinks).
+
+
+Which is based on [markdown-it-ins](https://github.com/markdown-it/markdown-it-ins) by Vitaly Puzrin, Alex Kocharin.

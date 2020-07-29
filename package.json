@@ -22,12 +22,12 @@
     "wikimedia",
     "wiki"
   ],
-  "author": "Julio Sepia <jsepia@juliosepia.com>",
+  "author": "Thomas Koppelaar <thomaskoppelaar@protonmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jsepia/markdown-it-wikilinks/issues"
+    "url": "https://github.com/thomaskoppelaar/markdown-it-wikilinks/issues"
   },
-  "homepage": "https://github.com/jsepia/markdown-it-wikilinks#readme",
+  "homepage": "https://github.com/thomaskoppelaar/markdown-it-wikilinks#readme",
   "devDependencies": {
     "coveralls": "^2.11.14",
     "eslint": "^3.7.1",
