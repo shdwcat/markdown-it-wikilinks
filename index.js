@@ -41,20 +41,20 @@ module.exports = (options) => {
   }
 
   return Plugin(
-    /\[\[[^sep\]]+(sep[^sep\]]+)?\]\]/.replace(/sep/g, new RegExp(separator)),
+    /\[\[([^\|\]]+)(\|[^\|\]]+)?\]\]/,
     (match, utils) => {
       let label = ''
       let pageName = ''
       let href = ''
       let htmlAttrs = []
       let htmlAttrsString = ''
-      const isSplit = !!match[3]
+      const isSplit = !!match[2]
       if (isSplit) {
-        if (description_then_file) {
+        if (options.description_then_file) {
           label = match[1]
-          pageName = match[3]
+          pageName = match[2].replace(/^\|/, '')
         } else {
-          label = match[3]
+          label = match[2].replace(/^\|/, '')
           pageName = match[1]
         }
         
