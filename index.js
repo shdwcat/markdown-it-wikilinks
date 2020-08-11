@@ -11,6 +11,8 @@ module.exports = (options) => {
     relativeBaseURL: './',
     makeAllLinksAbsolute: false,
     uriSuffix: '.html',
+    description_then_file: false,
+    separator: "\\|",
     htmlAttributes: {
     },
     generatePageNameFromLabel: (label) => {
@@ -39,7 +41,7 @@ module.exports = (options) => {
   }
 
   return Plugin(
-    /\[\[([\w\s-/]+(?:\.\w+)?)(\|([\w\s/]+))?\]\]/,
+    /\[\[[^sep\]]+(sep[^sep\]]+)?\]\]/.replace(/sep/g, new RegExp(separator)),
     (match, utils) => {
       let label = ''
       let pageName = ''
@@ -48,8 +50,14 @@ module.exports = (options) => {
       let htmlAttrsString = ''
       const isSplit = !!match[3]
       if (isSplit) {
-        label = match[3]
-        pageName = match[1]
+        if (description_then_file) {
+          label = match[1]
+          pageName = match[3]
+        } else {
+          label = match[3]
+          pageName = match[1]
+        }
+        
       }
       else {
         label = match[1]
