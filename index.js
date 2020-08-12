@@ -41,7 +41,7 @@ module.exports = (options) => {
   }
 
   return Plugin(
-    /\[\[([^\|\]]+)(\|[^\|\]]+)?\]\]/,
+    new RegExp("\\[\\[([^sep\\]]+)(sep[^sep\\]]+)?\\]\\]".replace(/sep/g, options.separator)),
     (match, utils) => {
       let label = ''
       let pageName = ''
@@ -52,9 +52,9 @@ module.exports = (options) => {
       if (isSplit) {
         if (options.description_then_file) {
           label = match[1]
-          pageName = match[2].replace(/^\|/, '')
+          pageName = match[2].replace(options.separator, '')
         } else {
-          label = match[2].replace(/^\|/, '')
+          label = match[2].replace(options.separator, '')
           pageName = match[1]
         }
         
