@@ -52,9 +52,9 @@ module.exports = (options) => {
       if (isSplit) {
         if (options.description_then_file) {
           label = match[1]
-          pageName = match[2].replace(options.separator, '')
+          pageName = match[2].replace(/^./, '') // Remove separator
         } else {
-          label = match[2].replace(options.separator, '')
+          label = match[2].replace(/^./, '') // Remove separator
           pageName = match[1]
         }
         
