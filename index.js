@@ -82,6 +82,7 @@ module.exports = (options) => {
       href = utils.escape(href)
 
       htmlAttrs.push(`href="${href}"`)
+      htmlAttrs.push(`data-href="${href}"`)
       for (let attrName in options.htmlAttributes) {
         const attrValue = options.htmlAttributes[attrName]
         htmlAttrs.push(`${attrName}="${attrValue}"`)
