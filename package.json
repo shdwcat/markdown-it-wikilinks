@@ -22,7 +22,11 @@
     "wikimedia",
     "wiki"
   ],
-  "author": "Thomas Koppelaar <thomaskoppelaar@protonmail.com>",
+  "author": "shdwcat (https://github.com/shdwcat)",
+  "contributors": [
+    "Thomas Koppelaar <thomaskoppelaar@protonmail.com>",
+    "Julio Sepia <jsepia@juliosepia.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shdwcat/markdown-it-wikilinks/issues"

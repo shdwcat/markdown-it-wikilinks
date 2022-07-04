@@ -119,7 +119,7 @@ module.exports = (options) => {
       pageName = options.postProcessPageName(pageName)
       label = options.postProcessLabel(label, defaultPostProcessLabel)
 
-      link = pagePath ? pagePath + '/' + pageName : pageName;
+      link = pagePath ? pagePath + '/' + pageName : pageName
 
       // make sure none of the values are empty
       if (!label || (!link && link !== '')) {
