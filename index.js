@@ -91,8 +91,8 @@ module.exports = (options) => {
       }
 
       const headingMatch = headingRegex.exec(pageName)
-      let link = headingMatch[1] ?? ''
-      const heading = headingMatch[2]?.split(/\s+/).join('-')
+      let link = headingMatch[1] || ''
+      const heading = headingMatch[2] && headingMatch[2].split(/\s+/).join('-')
 
       // e.g just '#HeadingName'
       let isHeadingLink = heading && !link
