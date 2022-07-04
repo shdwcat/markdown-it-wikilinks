@@ -43,7 +43,7 @@ module.exports = (options) => {
 
   return Plugin(
     new RegExp("\\[\\[([^sep\\]]+)(sep[^sep\\]]+)?\\]\\]".replace(/sep/g, options.separator)),
-    (match, utils) => {
+    (match, utils, document) => {
       let label = ''
       let pageName = ''
       let href = ''
