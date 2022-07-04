@@ -72,12 +72,19 @@ module.exports = (options) => {
         return match.input
       }
 
+      let uriSuffix = options.uriSuffix
+      if (!uriSuffix) {
+        var currentFileName = document.fsPath;
+        var currentExtension = currentFileName.split('.').pop()
+        uriSuffix = "." + currentExtension
+      }
+
       if (isAbsolute(pageName)) {
         pageName = removeInitialSlashes(pageName)
-        href = options.baseURL + pageName + options.uriSuffix
+        href = options.baseURL + pageName + uriSuffix
       }
       else {
-        href = options.relativeBaseURL + pageName + options.uriSuffix
+        href = options.relativeBaseURL + pageName + uriSuffix
       }
       href = utils.escape(href)
 
