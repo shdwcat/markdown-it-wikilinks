@@ -2,9 +2,11 @@
 
 Renders [Wikimedia-style links](https://www.mediawiki.org/wiki/Help:Links#Internal_links) in [markdown-it](https://github.com/markdown-it/markdown-it). This is useful for making Markdown-based wikis.
 
+This version supports `[[#heading]]` links both within the current page and in other pages with `[[Other#heading]]`. It also supports relative location in links such as `../Main` which points to `Main` in the folder above the current file. All of these features work together, e.g. `[[../Main#menu|Go to Main Menu]]`.
+
+Support for making links functional wihtin vscode's Markdown Preview is also available via the [`vscodeSupport`](#vscodesupport) option.
+
 ## Usage
-
-
 
 Install this into your project:
 
@@ -15,7 +17,7 @@ npm --save install markdown-it-wikilinks
 ...and *use* it:
 
 ```js
-const wikilinks = require('markdown-it-wikilinks')(options)
+const wikilinks = require('@shdwcat/markdown-it-wikilinks')(options)
 const md = require('markdown-it')()
     .use(wikilinks)
     .render('Click [[Wiki Links|here]] to learn about [[/Wiki]] links.')
@@ -28,6 +30,12 @@ const md = require('markdown-it')()
 ```
 
 ## Options
+
+### `vscodeSupport`
+
+**Default:** `false`
+
+Enables functioning links in vscode's Markdown Preview by setting the `data-href` attribute on the anchor link.
 
 ### `baseURL`
 
@@ -50,7 +58,7 @@ The base URL for relative wiki links.
 
 ```js
 const html = require('markdown-it')()
-  .use(require('markdown-it-wikilinks')({ relativeBaseURL: '#', suffix: '' }))
+  .use(require('markdown-it-wikilinks')({ relativeBaseURL: '#', uriSuffix: '' }))
   .render('[[Main Page]]')
   // <p><a href="#Main_Page">Main Page</a></p>
 ```
@@ -65,7 +73,9 @@ Render all wiki links as absolute links.
 
 **Default:** `.html`
 
-Append this suffix to every URL.
+Append this suffix to every link that doesn't already end with it.
+
+If left blank, links will use the same extension as the markdown file itself. For example `[[Foo]]` in a file named `bar.md` will link to `Foo.md`.
 
 ```js
 const html = require('markdown-it')()
@@ -123,6 +133,12 @@ const html = require('markdown-it')()
 
 Please note that the `generatePageNameFromLabel` function does not get applied for [piped links](https://meta.wikimedia.org/wiki/Help:Piped_link) such as `[[/Misc/Cats/Slate|kitty]]` since those already come with a target. 
 
+### `postProcessPagePath`
+
+A transform applied to the path in a relative link. For example, in `../path/foo.md`, the path is `../path`.
+
+The default transform makes no changes.
+
 ### `postProcessPageName`
 
 A transform applied to every page name. You can override it just like `generatePageNameFromLabel` (see above).
@@ -137,11 +153,13 @@ The default transform does the following things:
 
 A transform applied to every link label. You can override it just like `generatePageNameFromLabel` (see above).
 
-All the default transform does is trim surrounding whitespace.
+The default transform does the following things:
+
+* strips file extension
+* replaces dots dashes and underscores with spaces
+* trims surrounding whitespace
+* capitalizes first letter
 
 ## Credits
 
-Based on the original [markdown-it-wikilinks](https://github.com/jsepia/markdown-it-wikilinks).
-
-
-Which is based on [markdown-it-ins](https://github.com/markdown-it/markdown-it-ins) by Vitaly Puzrin, Alex Kocharin.
+Based on [thomaskoppelaar's fork](https://github.com/thomaskoppelaar/markdown-it-wikilinks) of [markdown-it-wikilinks](https://github.com/jsepia/markdown-it-wikilinks).
