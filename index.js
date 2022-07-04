@@ -7,6 +7,7 @@ const sanitize = require('sanitize-filename')
 module.exports = (options) => {
 
   const defaults = {
+    vscodeSupport: false,
     baseURL: '/',
     relativeBaseURL: './',
     makeAllLinksAbsolute: false,
@@ -89,13 +90,18 @@ module.exports = (options) => {
       href = utils.escape(href)
 
       htmlAttrs.push(`href="${href}"`)
-      htmlAttrs.push(`data-href="${href}"`)
+
+      // vscode uses data-href attribute to link within the preview
+      if (options.vscodeSupport) {
+        htmlAttrs.push(`data-href="${href}"`)
+      }
+
       for (let attrName in options.htmlAttributes) {
         const attrValue = options.htmlAttributes[attrName]
         htmlAttrs.push(`${attrName}="${attrValue}"`)
       }
       htmlAttrsString = htmlAttrs.join(' ')
-      
+
       return `<a ${htmlAttrsString}>${label}</a>`
     }
   )
