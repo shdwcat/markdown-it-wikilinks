@@ -4,6 +4,29 @@ const Plugin = require('markdown-it-regexp')
 const extend = require('extend')
 const sanitize = require('sanitize-filename')
 
+const defaultPostProcessLabel = (label, defaultProcess) => {
+
+  // strip extension (file names with only a leading . will be preserved)
+  if (label.includes('.', 1)) {
+     // ignore the first character because we might have '.foo.txt'
+     // which should become '.foo'
+    label = label.at(0) + label.substring(1).split('.', 2)[0]
+  }
+  
+  // replace dots underscores and dashes with spaces
+  label = label.replace(/[\.\-_]/g, ' ')
+
+  // trim whitespace at ends
+  label = label.trim()
+
+  // capitalize first letter
+  if (label.length > 0) {
+    label = label.at(0).toUpperCase() + label.substring(1)
+  }
+
+  return label
+}
+
 module.exports = (options) => {
 
   const defaults = {
@@ -19,16 +42,16 @@ module.exports = (options) => {
     generatePageNameFromLabel: (label) => {
       return label
     },
+    postProcessPagePath: (pagePath) => {
+      return pagePath
+    },
     postProcessPageName: (pageName) => {
       pageName = pageName.trim()
-      pageName = pageName.split('/').map(sanitize).join('/')
+      pageName = sanitize(pageName)
       pageName = pageName.replace(/\s+/, '_')
       return pageName
     },
-    postProcessLabel: (label) => {
-      label = label.trim()
-      return label
-    }
+    postProcessLabel: defaultPostProcessLabel
   }
 
   options = extend(true, defaults, options)
@@ -67,51 +90,71 @@ module.exports = (options) => {
         pageName = options.generatePageNameFromLabel(label)
       }
 
-      let headingMatch = headingRegex.exec(pageName)
-      pageName = headingMatch[1] ?? ''
-      let heading = headingMatch[2]?.split(/\s+/).join('-')
+      const headingMatch = headingRegex.exec(pageName)
+      let link = headingMatch[1] ?? ''
+      const heading = headingMatch[2]?.split(/\s+/).join('-')
 
       // e.g just '#HeadingName'
-      let isHeadingLink = heading && !pageName
+      let isHeadingLink = heading && !link
 
       // fixup label when there's a heading but no explicit description
       if (heading && !isSplit) {
-        label = pageName || heading
+        label = link || heading
       }
 
-      label = options.postProcessLabel(label)
+      // split the link into the name and the path
+      // e.g. ../foo/file.name has name 'file.name' and path '../foo'
+      let linkSegments = link.split('/')
+      pageName = linkSegments.pop()
+      let pagePath = linkSegments.join('/')
+
+      if (pagePath) {
+        // if this is not a split link, use the page name as the label instead of the whole path
+        if (!isSplit) {
+          label = pageName
+        }
+        pagePath = options.postProcessPagePath(pagePath)
+      }
+
       pageName = options.postProcessPageName(pageName)
+      label = options.postProcessLabel(label, defaultPostProcessLabel)
+
+      link = pagePath ? pagePath + '/' + pageName : pageName;
 
       // make sure none of the values are empty
-      if (!label || (!pageName && pageName !== '')) {
+      if (!label || (!link && link !== '')) {
         return match.input
       }
 
       if (isHeadingLink) {
         // in this case the href is just the link content, e.g. '#HeadingName'
-        href = "#" + heading.toLowerCase().split(/\s+/).join('-')
+        // need to convert it to the markdown heading format:
+        // lowercase with whitespace replaced by underscores
+        href = "#" + heading.toLowerCase()
       }
       else {
-
         // if a uriSuffix isn't provided, default to whatever the extension for this file is
         let uriSuffix = options.uriSuffix
         if (!uriSuffix) {
-          var currentFileName = document.fsPath;
-          var currentExtension = currentFileName.split('.').pop()
-          uriSuffix = "." + currentExtension
+          uriSuffix = "." + document.fsPath.split('.').pop()
         }
 
-        if (isAbsolute(pageName)) {
-          pageName = removeInitialSlashes(pageName)
-          href = options.baseURL + pageName + uriSuffix
+        if (isAbsolute(link)) {
+          link = removeInitialSlashes(link)
+          href = options.baseURL + link
         }
         else {
-          href = options.relativeBaseURL + pageName + uriSuffix
+          href = options.relativeBaseURL + link
+        }
+
+        // only append the uriSuffix if the link doesn't already have that extension
+        if (!link.endsWith(uriSuffix)) {
+          href += uriSuffix
         }
 
         // append heading if present
         if (heading) {
-          href += "#" + heading.toLowerCase();
+          href += "#" + heading.toLowerCase()
         }
       }
 
