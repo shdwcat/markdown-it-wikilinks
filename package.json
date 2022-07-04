@@ -1,5 +1,5 @@
 {
-  "name": "@thomaskoppelaar/markdown-it-wikilinks",
+  "name": "@shdwcat/markdown-it-wikilinks",
   "version": "1.2.0",
   "description": "WikiMedia-style links for the markdown-it parser",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thomaskoppelaar/markdown-it-wikilinks.git"
+    "url": "git+https://github.com/shdwcat/markdown-it-wikilinks.git"
   },
   "keywords": [
     "markdown-it-plugin",
@@ -25,9 +25,9 @@
   "author": "Thomas Koppelaar <thomaskoppelaar@protonmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thomaskoppelaar/markdown-it-wikilinks/issues"
+    "url": "https://github.com/shdwcat/markdown-it-wikilinks/issues"
   },
-  "homepage": "https://github.com/thomaskoppelaar/markdown-it-wikilinks#readme",
+  "homepage": "https://github.com/shdwcat/markdown-it-wikilinks#readme",
   "devDependencies": {
     "coveralls": "^2.11.14",
     "eslint": "^3.7.1",
@@ -39,8 +39,8 @@
     "rimraf": "^2.5.4"
   },
   "dependencies": {
+    "@shdwcat/markdown-it-regexp": "file:../markdown-it-regexp",
     "extend": "^3.0.0",
-    "markdown-it-regexp": "^0.4.0",
     "sanitize-filename": "^1.6.1"
   }
 }

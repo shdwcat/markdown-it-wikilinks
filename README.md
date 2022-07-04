@@ -1,13 +1,7 @@
 # Markdown-It Wikilinks
 
-A fork of [jsepia's plugin](https://github.com/jsepia/markdown-it-wikilinks) (It's recommended you use that plugin, not this one).
-
-
 Renders [Wikimedia-style links](https://www.mediawiki.org/wiki/Help:Links#Internal_links) in [markdown-it](https://github.com/markdown-it/markdown-it). This is useful for making Markdown-based wikis.
 
-## Reason behind forking
-
-I've created this fork in order to make it work more with the VSCode markdown preview window. It is by no means perfect.
 ## Usage
 
 
