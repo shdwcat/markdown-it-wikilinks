@@ -43,7 +43,7 @@
     "rimraf": "^2.5.4"
   },
   "dependencies": {
-    "@shdwcat/markdown-it-regexp": "file:../markdown-it-regexp",
+    "@shdwcat/markdown-it-regexp": "^0.4.0",
     "extend": "^3.0.0",
     "sanitize-filename": "^1.6.1"
   }
